@@ -2,8 +2,16 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<!-- 카카오톡 인앱브라우저 → 외부 브라우저 자동 전환 -->
+<script>
+(function(){var ua=navigator.userAgent.toLowerCase();
+ if(/kakaotalk/i.test(ua)){var url=window.location.href;
+  if(/iphone|ipad|ipod/i.test(ua)){location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(url);}
+  else{location.href='intent://'+url.replace(/https?:\/\//i,'')+'#Intent;scheme=https;package=com.android.chrome;end';}}
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>GnB 연세스타 · 별이랑 영어 말하기 (v0.23)</title>
+<title>GnB 연세스타 · 별이랑 영어 말하기 (v0.24)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Lora:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -397,9 +405,9 @@ const $ = id => document.getElementById(id);
      → 실제 녹음 오디오를 보내 "발음 점수 + 전사 + 별이 피드백"을 받습니다(모든 기기 작동).
    비워두면(아래 그대로면) 데모 모드: 브라우저 음성인식 + Anthropic 으로 작동(크롬 전용, 점수 없음). */
 const CONFIG = {
-  GAS_URL: "https://script.google.com/macros/s/AKfycbzAygVkoH4jOG6BQMxboV0HDXEUV8sAJLD_T2w55eexqZuU3ACyW3O3BLnqvYRgZiNQ/exec"
+  GAS_URL: "/api"   // ← Netlify 프록시 경유(실제 GAS 주소는 netlify/functions/proxy.js 에 보관). 차단 우회용.
 };
-const USE_BACKEND = /^https:\/\/script\.google\.com\//.test(CONFIG.GAS_URL);
+const USE_BACKEND = /^https:\/\/script\.google\.com\//.test(CONFIG.GAS_URL) || CONFIG.GAS_URL.indexOf("/api")===0;
 
 /* ---------- 배경 별 ---------- */
 (function(){
@@ -1262,7 +1270,7 @@ function renderFeedback(d){
   // 별 보상
   let earned = 0, shadowBonus = 0, retryBonus = 0, missionJustDone = false;
   if(!safetyOnly){
-    earned = (d.feedback && d.feedback.length<=2) ? 3 : 2;
+    earned = (d.feedback && d.feedback.length<=2) ? 2 : 1;
     if(isShadow){
       shadowBonus = 1;                       // 섀도잉 1회 성공 → 보너스 별 +1
       if(S.shadowDate!==todayStr()){ S.shadowDate=todayStr(); S.shadowToday=0; }
