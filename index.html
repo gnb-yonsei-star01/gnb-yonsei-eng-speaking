@@ -11,7 +11,7 @@
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>GnB 연세스타 · 별이랑 영어 말하기 (v0.24)</title>
+<title>GnB 연세스타 · 별이랑 영어 말하기 (v0.25)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Lora:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -197,6 +197,13 @@
   .stars-earned{text-align:center;font-size:30px;margin:8px 0 2px;letter-spacing:6px}
   .pron-tip{background:rgba(123,224,166,.08);border:1px solid rgba(123,224,166,.3);border-radius:14px;padding:14px 18px;margin-bottom:12px}
   .pron-tip .lab{color:var(--ok)}
+  .next-goal{display:flex;align-items:center;gap:13px;background:linear-gradient(135deg,rgba(232,200,122,.2),rgba(232,200,122,.07));
+    border:1px solid rgba(232,200,122,.45);border-radius:16px;padding:15px 18px;margin:14px 0 4px;animation:swap .5s both}
+  .next-goal .ng-ic{font-size:26px;flex:none;filter:drop-shadow(0 0 10px rgba(232,200,122,.5))}
+  .next-goal .ng-body{flex:1;min-width:0}
+  .next-goal .ng-lab{font-family:var(--sans);font-size:11.5px;font-weight:800;letter-spacing:.08em;color:var(--gold);margin-bottom:3px}
+  .next-goal .ng-txt{font-size:15.5px;line-height:1.5;color:#fff;font-weight:600;word-break:keep-all;overflow-wrap:anywhere}
+  @media(max-width:480px){ .next-goal{padding:13px 15px;gap:10px} .next-goal .ng-ic{font-size:22px} .next-goal .ng-txt{font-size:14.5px} }
   .score-ring{width:120px;height:120px;margin:2px auto 10px;position:relative}
   .score-ring svg{transform:rotate(-90deg)}
   .score-ring .num{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:34px;color:var(--gold-soft)}
@@ -1392,7 +1399,7 @@ function renderFeedback(d){
   }
 
   if(d.encouragement) html += `<div class="msg d3">${esc(d.encouragement)}</div>`;
-  if(d.next_step) html += `<div class="note">다음 목표 한 가지 → ${esc(d.next_step)}</div>`;
+  if(d.next_step) html += `<div class="next-goal d3"><div class="ng-ic">🎯</div><div class="ng-body"><div class="ng-lab">다음 목표 한 가지</div><div class="ng-txt">${esc(d.next_step)}</div></div></div>`;
 
   // 교사용 첨삭(coaching)은 학생 화면에 표시하지 않음 — 발화기록 시트의 '교사코칭' 칸에만 남겨 선생님 리포팅에 사용
 
